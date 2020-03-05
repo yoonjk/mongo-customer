@@ -1,5 +1,7 @@
 package com.ibm.lab;
 
+import java.util.Optional;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,9 +27,9 @@ public class DemoCustomerApplication implements CommandLineRunner{
         repository.deleteAll();
 
         // save a couple of customers
-        repository.save(new Customer(1l,"001","Alice", "Smith"));
-        repository.save(new Customer(2l,"002","Bob", "Smith"));
-        repository.save(new Customer(3l,"003","Jaeguk", "Yun"));
+        repository.save(new Customer("001","Alice", "Smith"));
+        repository.save(new Customer("002","Bob", "Smith"));
+        repository.save(new Customer("003","Jaeguk", "Yun"));
 
         // fetch all customers
         logger.info("Customers found with findAll():");
@@ -40,11 +42,11 @@ public class DemoCustomerApplication implements CommandLineRunner{
         // fetch and update an individual customer
         logger.info("Customer found with findByCode('001'):");
         logger.info("--------------------------------");
-        Customer theCustomer = repository.findByCode("001");
+        Optional<Customer> theCustomer = repository.findById("001");
         logger.info(theCustomer.toString());
-        theCustomer.setAge(12);
-        repository.save(theCustomer);
-        Customer theCustomer2 = repository.findByCode("001");
+        theCustomer.get().setAge(12);
+        repository.save(theCustomer.get());
+        Optional<Customer> theCustomer2= repository.findById("001");
         logger.info("updated customer:"+theCustomer2.toString());
         logger.info("");
 

@@ -6,7 +6,6 @@ import org.springframework.data.mongodb.repository.MongoRepository;
 
 import com.ibm.lab.customer.domain.Customer;
 
-public interface CustomerRepository extends MongoRepository<Customer, Long> {
-    Customer findByCode(String code);
+public interface CustomerRepository extends MongoRepository<Customer, String> {
     List<Customer> findByLastName(String lastName);
 }

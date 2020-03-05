@@ -1,16 +1,20 @@
 package com.ibm.lab.customer.domain;
 
 import org.springframework.data.annotation.Id;
-import org.springframework.data.mongodb.core.index.Indexed;
+import org.springframework.data.annotation.Transient;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 @Document(collection = "customers")
 public class Customer {
+	
+    @Transient
+    public static final String SEQUENCE_NAME = "customers_sequence";
+    
     @Id
-    private Long id;
+    private String id;
 
-    @Indexed(unique = true)
-    private String code;// the code should be unique for every customer
+//    @Indexed(unique = true)
+//    private String code;// the code should be unique for every customer
 
     private String firstName;
     private String lastName;
@@ -18,18 +22,23 @@ public class Customer {
 
     public Customer() {}
 
-    public Customer(Long id,String code,String firstName, String lastName) {
+    public Customer(String id, String firstName, String lastName) {
         this.id = id;
-        this.code = code;
         this.firstName = firstName;
         this.lastName = lastName;
+    }
+    
+    public Customer(String id, String firstName, String lastName, int age) {
+        this.id = id;
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.age = age;
     }
 
     @Override
     public String toString() {
         return "Customer{" +
                 "id=" + id +
-                ", code='" + code + '\'' +
                 ", firstName='" + firstName + '\'' +
                 ", lastName='" + lastName + '\'' +
                 ", age=" + age +
@@ -37,20 +46,12 @@ public class Customer {
     }
     //getters and setters
 
-	public Long getId() {
+	public String getId() {
 		return id;
 	}
 
-	public void setId(Long id) {
+	public void setId(String id) {
 		this.id = id;
-	}
-
-	public String getCode() {
-		return code;
-	}
-
-	public void setCode(String code) {
-		this.code = code;
 	}
 
 	public String getFirstName() {
